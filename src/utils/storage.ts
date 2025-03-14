@@ -1,9 +1,7 @@
-
 export interface UserData {
   username: string;
   password: string;
   fullName: string;
-  payment: string;
   email: string;
   dateOfBirth: string;
 }
