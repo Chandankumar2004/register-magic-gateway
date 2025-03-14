@@ -1,6 +1,5 @@
 
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import BlurImage from '@/components/BlurImage';
 import RegistrationForm from '@/components/RegistrationForm';
 
@@ -18,17 +17,6 @@ const Index = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
       </div>
-      
-      {/* Header with login button */}
-      <header className="w-full p-4 sm:p-6 flex justify-end absolute top-0 right-0 z-10">
-        <Button 
-          variant="ghost" 
-          className="backdrop-blur-md bg-white/40 border border-white/30 hover:bg-white/60 text-gray-900 transition-all duration-300 hover:scale-105 shadow-sm hover:shadow-md"
-          onClick={() => navigate('/login')}
-        >
-          Log in
-        </Button>
-      </header>
       
       {/* Main content */}
       <main className="relative z-10 flex-1 flex flex-col md:flex-row min-h-screen">

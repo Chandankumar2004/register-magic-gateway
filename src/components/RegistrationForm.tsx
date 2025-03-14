@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -29,7 +28,6 @@ import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { saveUserData } from '@/utils/storage';
 
-// Form schema validation
 const formSchema = z.object({
   username: z.string().min(3, {
     message: 'Username must be at least 3 characters.',
@@ -58,7 +56,6 @@ const RegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   
-  // Initialize form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,10 +70,8 @@ const RegistrationForm = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Save to local storage
       saveUserData({
         username: values.username,
         password: values.password,
@@ -89,7 +84,6 @@ const RegistrationForm = () => {
         description: 'Your account has been created.',
       });
       
-      // Navigate to login page
       setTimeout(() => {
         navigate('/login');
       }, 1500);
@@ -236,36 +230,34 @@ const RegistrationForm = () => {
             />
           </div>
 
-          <Button 
-            type="submit" 
-            className="w-full h-12 text-base font-medium"
-            variant="3d"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-            ) : (
-              <>
-                Sign Up
-                <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </>
-            )}
-          </Button>
+          <div className="flex gap-4 w-full">
+            <Button 
+              type="submit" 
+              className="flex-1 h-12 text-base font-medium"
+              variant="3d"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              ) : (
+                <>
+                  Sign Up
+                  <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </>
+              )}
+            </Button>
+            
+            <Button 
+              type="button"
+              variant="outline" 
+              className="flex-1 h-12 text-base font-medium transition-all duration-300 border-gray-300 hover:border-blue-400 hover:bg-blue-50"
+              onClick={() => navigate('/login')}
+            >
+              Log In
+            </Button>
+          </div>
         </form>
       </Form>
-      
-      <div className="text-center text-sm">
-        <p className="text-muted-foreground">
-          Already have an account?{' '}
-          <Button 
-            variant="link" 
-            className="p-0 h-auto font-semibold underline-offset-4 hover:underline transition-all duration-300 hover:text-blue-600" 
-            onClick={() => navigate('/login')}
-          >
-            Log in
-          </Button>
-        </p>
-      </div>
     </div>
   );
 };
