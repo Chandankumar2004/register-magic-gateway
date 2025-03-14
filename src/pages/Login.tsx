@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -80,30 +79,19 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Left side - Image */}
-      <div className="w-full md:w-1/2 h-64 md:h-auto relative">
+    <div className="min-h-screen relative">
+      {/* Full background image */}
+      <div className="absolute inset-0 w-full h-full z-0">
         <BlurImage
           src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
           alt="Technology"
           className="w-full h-full object-cover"
         />
-        
-        {/* Overlay with text */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent flex items-center">
-          <div className="p-8 md:p-16 text-white max-w-md">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-up" style={{ animationDelay: '200ms' }}>
-              Welcome back
-            </h2>
-            <p className="text-lg text-white/80 animate-fade-up" style={{ animationDelay: '400ms' }}>
-              Sign in to access your account and continue your journey.
-            </p>
-          </div>
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
       </div>
       
-      {/* Right side - Login form */}
-      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-6 md:p-12 animate-fade-in bg-gradient-to-br from-blue-50/30 to-indigo-50/30">
+      {/* Login form container */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
         <div className="w-full max-w-md space-y-8 bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg">
           <div className="space-y-2">
             <Button
