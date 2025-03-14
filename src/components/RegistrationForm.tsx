@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon, ChevronRight, Loader2 } from 'lucide-react';
+import { CalendarIcon, ChevronRight, CreditCard, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
@@ -25,6 +25,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { saveUserData } from '@/utils/storage';
@@ -59,6 +68,8 @@ type FormValues = z.infer<typeof formSchema>;
 
 const RegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
   const navigate = useNavigate();
   
   // Initialize form
@@ -68,10 +79,19 @@ const RegistrationForm = () => {
       username: '',
       password: '',
       fullName: '',
-      payment: '',
+      payment: paymentMethod,
       email: '',
     },
   });
+
+  const handlePaymentSelection = (method: string) => {
+    setPaymentMethod(method);
+    form.setValue('payment', method);
+    setPaymentDialogOpen(false);
+    toast.success('Payment method selected', {
+      description: `You selected ${method} as your payment method.`,
+    });
+  };
 
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true);
@@ -183,13 +203,60 @@ const RegistrationForm = () => {
               name="payment"
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel>Payment</FormLabel>
+                  <FormLabel>Payment Method</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="Payment details" 
-                      className="h-11" 
-                      {...field} 
-                    />
+                    <Dialog open={paymentDialogOpen} onOpenChange={setPaymentDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button 
+                          variant="outline" 
+                          className="w-full h-11 justify-start text-left font-normal"
+                          type="button"
+                        >
+                          <CreditCard className="mr-2 h-4 w-4" />
+                          {field.value ? field.value : 'Select a payment method'}
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>Select Payment Method</DialogTitle>
+                          <DialogDescription>
+                            Choose your preferred payment option
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <Button 
+                            variant="outline" 
+                            onClick={() => handlePaymentSelection('Credit Card')}
+                            className="justify-start"
+                          >
+                            <CreditCard className="mr-2 h-4 w-4" />
+                            Credit Card
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            onClick={() => handlePaymentSelection('PayPal')}
+                            className="justify-start"
+                          >
+                            <CreditCard className="mr-2 h-4 w-4" />
+                            PayPal
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            onClick={() => handlePaymentSelection('Bank Transfer')}
+                            className="justify-start"
+                          >
+                            <CreditCard className="mr-2 h-4 w-4" />
+                            Bank Transfer
+                          </Button>
+                        </div>
+                        <DialogFooter>
+                          <Button type="button" variant="secondary" onClick={() => setPaymentDialogOpen(false)}>
+                            Cancel
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                    <input type="hidden" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -293,3 +360,4 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
+
