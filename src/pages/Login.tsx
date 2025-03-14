@@ -103,19 +103,19 @@ const Login = () => {
       </div>
       
       {/* Right side - Login form */}
-      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-6 md:p-12 animate-fade-in">
-        <div className="w-full max-w-md space-y-8">
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-6 md:p-12 animate-fade-in bg-gradient-to-br from-blue-50/30 to-indigo-50/30">
+        <div className="w-full max-w-md space-y-8 bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg">
           <div className="space-y-2">
             <Button
               variant="ghost"
-              className="p-0 h-auto mb-6 hover:bg-transparent"
+              className="p-0 h-auto mb-6 hover:bg-transparent hover:text-blue-600 transition-colors"
               onClick={() => navigate('/')}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to registration
             </Button>
             
-            <h1 className="text-3xl font-semibold tracking-tight">Sign in</h1>
+            <h1 className="text-3xl font-semibold tracking-tight bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Sign in</h1>
             <p className="text-muted-foreground">
               Enter your credentials to access your account
             </p>
@@ -133,7 +133,7 @@ const Login = () => {
                       <FormControl>
                         <Input 
                           placeholder="johndoe" 
-                          className="h-11" 
+                          className="h-11 transition-all duration-300 border-gray-300 focus:border-blue-500 hover:border-blue-400" 
                           {...field} 
                         />
                       </FormControl>
@@ -152,7 +152,7 @@ const Login = () => {
                         <Input 
                           type="password" 
                           placeholder="••••••••" 
-                          className="h-11" 
+                          className="h-11 transition-all duration-300 border-gray-300 focus:border-blue-500 hover:border-blue-400" 
                           {...field} 
                         />
                       </FormControl>
@@ -164,11 +164,12 @@ const Login = () => {
 
               <Button 
                 type="submit" 
-                className="w-full h-11"
+                className="w-full h-12 text-base font-medium"
+                variant="3d"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                 ) : (
                   'Sign In'
                 )}
@@ -181,7 +182,7 @@ const Login = () => {
               Don't have an account?{' '}
               <Button 
                 variant="link" 
-                className="p-0 h-auto font-semibold underline-offset-4 hover:underline" 
+                className="p-0 h-auto font-semibold underline-offset-4 hover:underline transition-all duration-300 hover:text-blue-600" 
                 onClick={() => navigate('/')}
               >
                 Sign up

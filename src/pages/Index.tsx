@@ -13,7 +13,7 @@ const Index = () => {
       <header className="w-full p-4 sm:p-6 flex justify-end absolute top-0 right-0 z-10">
         <Button 
           variant="ghost" 
-          className="backdrop-blur-md bg-white/30 border border-gray-200/30 hover:bg-white/50 text-gray-900 hover-lift"
+          className="backdrop-blur-md bg-white/40 border border-white/30 hover:bg-white/60 text-gray-900 transition-all duration-300 hover:scale-105 shadow-sm hover:shadow-md"
           onClick={() => navigate('/login')}
         >
           Log in
@@ -44,7 +44,7 @@ const Index = () => {
         </div>
         
         {/* Right side - Registration form */}
-        <div className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-12 animate-fade-in">
+        <div className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-12 animate-fade-in bg-gradient-to-br from-blue-50/30 to-indigo-50/30">
           <RegistrationForm />
         </div>
       </main>

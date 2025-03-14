@@ -104,9 +104,9 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md space-y-8 animate-fade-up">
+    <div className="w-full max-w-md space-y-8 animate-fade-up bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg">
       <div className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Create an account</h1>
+        <h1 className="text-3xl font-semibold tracking-tight bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Create an account</h1>
         <p className="text-muted-foreground">
           Fill in the details below to create your account
         </p>
@@ -124,7 +124,7 @@ const RegistrationForm = () => {
                   <FormControl>
                     <Input 
                       placeholder="johndoe" 
-                      className="h-11" 
+                      className="h-11 transition-all duration-300 border-gray-300 focus:border-blue-500 hover:border-blue-400" 
                       {...field} 
                     />
                   </FormControl>
@@ -143,7 +143,7 @@ const RegistrationForm = () => {
                     <Input 
                       type="password" 
                       placeholder="••••••••" 
-                      className="h-11" 
+                      className="h-11 transition-all duration-300 border-gray-300 focus:border-blue-500 hover:border-blue-400" 
                       {...field} 
                     />
                   </FormControl>
@@ -164,7 +164,7 @@ const RegistrationForm = () => {
                   <FormControl>
                     <Input 
                       placeholder="John Doe" 
-                      className="h-11" 
+                      className="h-11 transition-all duration-300 border-gray-300 focus:border-blue-500 hover:border-blue-400" 
                       {...field} 
                     />
                   </FormControl>
@@ -183,7 +183,7 @@ const RegistrationForm = () => {
                     <Input 
                       type="email" 
                       placeholder="john.doe@example.com" 
-                      className="h-11" 
+                      className="h-11 transition-all duration-300 border-gray-300 focus:border-blue-500 hover:border-blue-400" 
                       {...field} 
                     />
                   </FormControl>
@@ -204,7 +204,7 @@ const RegistrationForm = () => {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full h-11 justify-start text-left font-normal",
+                            "w-full h-11 justify-start text-left font-normal transition-all duration-300 border-gray-300 hover:border-blue-400",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -238,15 +238,16 @@ const RegistrationForm = () => {
 
           <Button 
             type="submit" 
-            className="w-full h-11 group"
+            className="w-full h-12 text-base font-medium"
+            variant="3d"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
             ) : (
               <>
                 Sign Up
-                <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </>
             )}
           </Button>
@@ -258,7 +259,7 @@ const RegistrationForm = () => {
           Already have an account?{' '}
           <Button 
             variant="link" 
-            className="p-0 h-auto font-semibold underline-offset-4 hover:underline" 
+            className="p-0 h-auto font-semibold underline-offset-4 hover:underline transition-all duration-300 hover:text-blue-600" 
             onClick={() => navigate('/login')}
           >
             Log in
