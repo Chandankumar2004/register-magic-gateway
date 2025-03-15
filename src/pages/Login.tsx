@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -59,9 +60,9 @@ const Login = () => {
           description: `Welcome back, ${user.fullName}!`,
         });
         
-        // Navigate to dashboard (or home for now)
+        // Navigate to dashboard
         setTimeout(() => {
-          navigate('/');
+          navigate('/dashboard');
         }, 1500);
       } else {
         toast.error('Login failed', {
