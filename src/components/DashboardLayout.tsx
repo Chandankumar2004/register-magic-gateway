@@ -1,27 +1,38 @@
 
 import { useState } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, BookText, Briefcase, DollarSign, User, Menu, X } from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Home, BookText, Briefcase, DollarSign, User, Menu, X, BriefcaseIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const DashboardLayout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
     { name: 'Home', path: '/dashboard', icon: Home },
     { name: 'Blog', path: '/dashboard/blog', icon: BookText },
     { name: 'Jobs', path: '/dashboard/jobs', icon: Briefcase },
+    { name: 'My Jobs', path: '/dashboard/my-jobs', icon: BriefcaseIcon },
     { name: 'Pricing', path: '/dashboard/pricing', icon: DollarSign },
     { name: 'Profile', path: '/dashboard/profile', icon: User },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 flex relative">
+      {/* Background overlay with image */}
+      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
+        <img 
+          src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b" 
+          alt="Background" 
+          className="w-full h-full object-cover"
+        />
+      </div>
+
       {/* Sidebar - desktop */}
-      <div className="hidden md:flex md:w-64 md:flex-col fixed inset-y-0">
-        <div className="flex flex-col flex-grow border-r border-gray-200 bg-white pt-5 pb-4 overflow-y-auto">
+      <div className="hidden md:flex md:w-64 md:flex-col fixed inset-y-0 z-10">
+        <div className="flex flex-col flex-grow border-r border-gray-200 bg-white/90 backdrop-blur-sm pt-5 pb-4 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-4">
             <h1 className="text-xl font-bold text-blue-600">Dashboard</h1>
           </div>
@@ -53,7 +64,7 @@ const DashboardLayout = () => {
       </div>
 
       {/* Mobile menu button */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-10 bg-white border-b border-gray-200 px-4 py-2">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-10 bg-white/90 backdrop-blur-sm border-b border-gray-200 px-4 py-2">
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-bold text-blue-600">Dashboard</h1>
           <Button
@@ -110,7 +121,7 @@ const DashboardLayout = () => {
       )}
 
       {/* Main content */}
-      <div className="md:ml-64 flex-1 flex flex-col">
+      <div className="md:ml-64 flex-1 flex flex-col z-10">
         <main className="flex-1 pt-16 md:pt-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
             <Outlet />

@@ -11,6 +11,7 @@ import DashboardLayout from "./components/DashboardLayout";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import Blog from "./pages/dashboard/Blog";
 import Jobs from "./pages/dashboard/Jobs";
+import MyJobs from "./pages/dashboard/MyJobs";
 import Pricing from "./pages/dashboard/Pricing";
 import Profile from "./pages/dashboard/Profile";
 
@@ -31,6 +32,7 @@ const App = () => (
             <Route index element={<DashboardHome />} />
             <Route path="blog" element={<Blog />} />
             <Route path="jobs" element={<Jobs />} />
+            <Route path="my-jobs" element={<MyJobs />} />
             <Route path="pricing" element={<Pricing />} />
             <Route path="profile" element={<Profile />} />
           </Route>
