@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, BookText, Briefcase, DollarSign, User, Menu, X, BriefcaseIcon } from 'lucide-react';
+import { Home, BookText, Briefcase, User, Menu, X, BriefcaseIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -15,24 +15,24 @@ const DashboardLayout = () => {
     { name: 'Blog', path: '/dashboard/blog', icon: BookText },
     { name: 'Jobs', path: '/dashboard/jobs', icon: Briefcase },
     { name: 'My Jobs', path: '/dashboard/my-jobs', icon: BriefcaseIcon },
-    { name: 'Pricing', path: '/dashboard/pricing', icon: DollarSign },
     { name: 'Profile', path: '/dashboard/profile', icon: User },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50 flex relative">
-      {/* Background overlay with image */}
-      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
-        <img 
-          src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b" 
-          alt="Background" 
-          className="w-full h-full object-cover"
-        />
+      {/* Enhanced background with gradient and overlay */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069')] bg-cover opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-white/80"></div>
+        {/* Decorative elements */}
+        <div className="absolute top-20 right-20 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
       {/* Sidebar - desktop */}
       <div className="hidden md:flex md:w-64 md:flex-col fixed inset-y-0 z-10">
-        <div className="flex flex-col flex-grow border-r border-gray-200 bg-white/90 backdrop-blur-sm pt-5 pb-4 overflow-y-auto">
+        <div className="flex flex-col flex-grow border-r border-gray-200 bg-white/80 backdrop-blur-md pt-5 pb-4 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-4">
             <h1 className="text-xl font-bold text-blue-600">Dashboard</h1>
           </div>
