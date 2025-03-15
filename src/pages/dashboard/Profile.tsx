@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon, Upload, Loader2, MapPin, GraduationCap, Upload } from 'lucide-react';
+import { CalendarIcon, Upload, Loader2, MapPin, GraduationCap } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
