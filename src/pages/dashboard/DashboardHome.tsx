@@ -1,11 +1,13 @@
 
 import React from 'react';
-import { ArrowRightCircle } from 'lucide-react';
+import { ArrowRightCircle, ArrowLeftCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ProfileCompletion from '@/components/ProfileCompletion';
 
 const DashboardHome = () => {
+  const navigate = useNavigate();
+  
   // Get user name from localStorage
   const getUserName = () => {
     const users = localStorage.getItem('registered_users');
@@ -18,13 +20,25 @@ const DashboardHome = () => {
     return 'User';
   };
 
+  const handleReturnToSignup = () => {
+    navigate('/');
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-gray-800 to-gray-500 bg-clip-text text-transparent">Welcome, {getUserName()}</h1>
+        <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">Welcome, {getUserName()}</h1>
+        <Button 
+          variant="outline" 
+          onClick={handleReturnToSignup}
+          className="flex items-center gap-2 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 hover:scale-105"
+        >
+          <ArrowLeftCircle className="h-4 w-4" />
+          Return to Signup
+        </Button>
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-pointer">
+        <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-pointer hover:bg-blue-50">
           <h2 className="text-lg font-medium mb-2 text-blue-600">Dashboard</h2>
           <p className="text-gray-600 mb-4">
             Welcome to your dashboard. Here you can manage your profile, view available jobs, read blog posts, and more.
@@ -39,7 +53,7 @@ const DashboardHome = () => {
             </Button>
           </Link>
         </div>
-        <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-pointer">
+        <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-pointer hover:bg-blue-50">
           <h2 className="text-lg font-medium mb-2 text-blue-600">Recent Jobs</h2>
           <p className="text-gray-600 mb-4">
             Check out the latest job postings tailored to your qualifications.

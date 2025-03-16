@@ -20,7 +20,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         gradient: "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700",
-        "3d": "btn-3d bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-0 relative overflow-hidden",
+        "3d": "btn-3d bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-0 relative overflow-hidden shadow-[0_4px_0_rgb(59,113,202)] hover:shadow-[0_2px_0_rgb(59,113,202)] translate-y-0 hover:translate-y-1 active:translate-y-2 transition-all duration-200",
       },
       size: {
         default: "h-10 px-4 py-2",

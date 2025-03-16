@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon, Loader2, MapPin, GraduationCap, UploadCloud } from 'lucide-react';
+import { CalendarIcon, Loader2, MapPin, GraduationCap, UploadCloud, Camera, Trash2, PenLine } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
@@ -56,6 +56,23 @@ const Profile = () => {
   const [resumeInfo, setResumeInfo] = useState<{name: string, size: number} | null>(null);
   
   useEffect(() => {
+    // Load existing profile data
+    const userProfile = localStorage.getItem('userProfile');
+    if (userProfile) {
+      try {
+        const profileData = JSON.parse(userProfile);
+        form.reset({
+          fullName: profileData.fullName || '',
+          title: profileData.title || '',
+          education: profileData.education || '',
+          graduationYear: profileData.graduationYear ? new Date(profileData.graduationYear) : undefined,
+          location: profileData.location || '',
+        });
+      } catch (error) {
+        console.error('Error parsing stored profile data:', error);
+      }
+    }
+
     // Check if we have a stored resume
     const storedResume = localStorage.getItem('userResume');
     if (storedResume) {
@@ -119,9 +136,20 @@ const Profile = () => {
         setProfilePhoto(result);
         // Store the photo in localStorage
         localStorage.setItem('userProfilePhoto', result);
+        toast.success('Profile photo updated', {
+          description: 'Your profile photo has been updated successfully.',
+        });
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleRemoveProfilePhoto = () => {
+    setProfilePhoto(null);
+    localStorage.removeItem('userProfilePhoto');
+    toast.success('Profile photo removed', {
+      description: 'Your profile photo has been removed successfully.',
+    });
   };
 
   const handleResumeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,7 +194,7 @@ const Profile = () => {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Your Profile</h1>
+          <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">Your Profile</h1>
           <p className="text-muted-foreground">
             Manage your personal information and qualifications
           </p>
@@ -176,7 +204,20 @@ const Profile = () => {
 
       <div className="grid gap-6 md:grid-cols-3">
         <div className="col-span-2 space-y-6">
-          <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200">
+          <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:shadow-md transition-all duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-medium text-blue-600 flex items-center">
+                <PenLine className="mr-2 h-4 w-4" />
+                Personal Information
+              </h2>
+              <Button 
+                variant="ghost"
+                size="sm"
+                className="h-8 text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+              >
+                Edit
+              </Button>
+            </div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-4">
@@ -318,9 +359,9 @@ const Profile = () => {
             </Form>
           </div>
 
-          <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200">
-            <h2 className="text-lg font-medium mb-4 flex items-center">
-              <GraduationCap className="mr-2 h-5 w-5 text-blue-500" />
+          <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:shadow-md transition-all duration-300">
+            <h2 className="text-lg font-medium mb-4 flex items-center text-blue-600">
+              <GraduationCap className="mr-2 h-5 w-5" />
               Resume
             </h2>
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
@@ -348,7 +389,7 @@ const Profile = () => {
               <div className="space-y-2">
                 <Label 
                   htmlFor="resume-upload" 
-                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors"
+                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors hover:scale-105"
                 >
                   {resumeInfo ? 'Replace resume' : 'Upload resume'}
                 </Label>
@@ -366,36 +407,60 @@ const Profile = () => {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200">
-            <h2 className="text-lg font-medium mb-4">Profile Photo</h2>
+          <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:shadow-md transition-all duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-medium text-blue-600">Profile Photo</h2>
+              {profilePhoto && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                  onClick={handleRemoveProfilePhoto}
+                >
+                  <Trash2 className="h-4 w-4 mr-1" />
+                  Remove
+                </Button>
+              )}
+            </div>
             <div className="flex flex-col items-center space-y-4">
-              <div className="h-32 w-32 rounded-full overflow-hidden bg-gray-100 border border-gray-200">
-                {profilePhoto ? (
-                  <img 
-                    src={profilePhoto} 
-                    alt="Profile Preview" 
-                    className="h-full w-full object-cover" 
-                  />
-                ) : (
-                  <div className="h-full w-full flex items-center justify-center">
-                    <UploadCloud className="h-10 w-10 text-gray-400" />
-                  </div>
-                )}
+              <div className="relative group">
+                <div className="h-32 w-32 rounded-full overflow-hidden bg-gray-100 border border-gray-200 group-hover:border-blue-300 transition-all duration-300">
+                  {profilePhoto ? (
+                    <img 
+                      src={profilePhoto} 
+                      alt="Profile Preview" 
+                      className="h-full w-full object-cover" 
+                    />
+                  ) : (
+                    <div className="h-full w-full flex items-center justify-center">
+                      <UploadCloud className="h-10 w-10 text-gray-400" />
+                    </div>
+                  )}
+                </div>
+                <label 
+                  htmlFor="profile-photo" 
+                  className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md cursor-pointer hover:bg-blue-50 transition-colors hover:scale-110 transform duration-200"
+                >
+                  <Camera className="h-4 w-4 text-blue-600" />
+                  <span className="sr-only">Change profile picture</span>
+                </label>
               </div>
-              <Label 
-                htmlFor="profile-photo" 
-                className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors"
-              >
-                {profilePhoto ? 'Change photo' : 'Upload photo'}
-              </Label>
-              <Input 
-                id="profile-photo" 
-                type="file" 
-                className="hidden" 
-                accept="image/*"
-                onChange={handleProfilePhotoChange}
-              />
-              <p className="text-xs text-gray-500 text-center">Recommended: Square JPG or PNG, at least 300x300px</p>
+              <div className="space-y-2 text-center">
+                <Label 
+                  htmlFor="profile-photo" 
+                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors hover:scale-105"
+                >
+                  {profilePhoto ? 'Change photo' : 'Upload photo'}
+                </Label>
+                <Input 
+                  id="profile-photo" 
+                  type="file" 
+                  className="hidden" 
+                  accept="image/*"
+                  onChange={handleProfilePhotoChange}
+                />
+                <p className="text-xs text-gray-500 text-center">Recommended: Square JPG or PNG, at least 300x300px</p>
+              </div>
             </div>
           </div>
         </div>
