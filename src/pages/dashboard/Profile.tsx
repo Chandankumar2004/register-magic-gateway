@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -191,8 +190,8 @@ const Profile = () => {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+    <div className="space-y-6">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">Your Profile</h1>
           <p className="text-muted-foreground">
@@ -204,7 +203,7 @@ const Profile = () => {
 
       <div className="grid gap-6 md:grid-cols-3">
         <div className="col-span-2 space-y-6">
-          <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:shadow-md transition-all duration-300">
+          <div className="bg-white/90 shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-medium text-blue-600 flex items-center">
                 <PenLine className="mr-2 h-4 w-4" />
@@ -213,13 +212,13 @@ const Profile = () => {
               <Button 
                 variant="ghost"
                 size="sm"
-                className="h-8 text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                className="h-8 text-blue-600 hover:bg-blue-50 hover:text-blue-700 transform hover:scale-105 transition-all"
               >
                 Edit
               </Button>
             </div>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                 <div className="space-y-4">
                   <FormField
                     control={form.control}
@@ -345,7 +344,7 @@ const Profile = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full h-11"
+                  className="w-full h-11 mt-2 transform hover:scale-105 transition-all"
                   variant="3d"
                   disabled={isSubmitting}
                 >
@@ -359,7 +358,7 @@ const Profile = () => {
             </Form>
           </div>
 
-          <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:shadow-md transition-all duration-300">
+          <div className="bg-white/90 shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
             <h2 className="text-lg font-medium mb-4 flex items-center text-blue-600">
               <GraduationCap className="mr-2 h-5 w-5" />
               Resume
@@ -389,7 +388,7 @@ const Profile = () => {
               <div className="space-y-2">
                 <Label 
                   htmlFor="resume-upload" 
-                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors hover:scale-105"
+                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors hover:scale-105 transform"
                 >
                   {resumeInfo ? 'Replace resume' : 'Upload resume'}
                 </Label>
@@ -407,14 +406,14 @@ const Profile = () => {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 hover:shadow-md transition-all duration-300">
+          <div className="bg-white/90 shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-medium text-blue-600">Profile Photo</h2>
               {profilePhoto && (
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                  className="h-8 text-blue-600 hover:bg-blue-50 hover:text-blue-700 transform hover:scale-105 transition-all"
                   onClick={handleRemoveProfilePhoto}
                 >
                   <Trash2 className="h-4 w-4 mr-1" />
@@ -424,7 +423,7 @@ const Profile = () => {
             </div>
             <div className="flex flex-col items-center space-y-4">
               <div className="relative group">
-                <div className="h-32 w-32 rounded-full overflow-hidden bg-gray-100 border border-gray-200 group-hover:border-blue-300 transition-all duration-300">
+                <div className="h-32 w-32 rounded-full overflow-hidden bg-gray-100 border border-gray-200 group-hover:border-blue-300 transition-all duration-300 shadow-lg">
                   {profilePhoto ? (
                     <img 
                       src={profilePhoto} 
@@ -448,7 +447,7 @@ const Profile = () => {
               <div className="space-y-2 text-center">
                 <Label 
                   htmlFor="profile-photo" 
-                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors hover:scale-105"
+                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors hover:scale-105 transform"
                 >
                   {profilePhoto ? 'Change photo' : 'Upload photo'}
                 </Label>

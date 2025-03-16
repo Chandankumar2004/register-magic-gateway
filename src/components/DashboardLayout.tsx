@@ -42,18 +42,18 @@ const DashboardLayout = () => {
       {/* Enhanced creative background with multiple layers */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Base gradient layer */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-indigo-50/80 to-purple-50/80"></div>
         
         {/* Creative background pattern */}
-        <div className="absolute inset-0 opacity-15">
+        <div className="absolute inset-0 opacity-20">
           <div className="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069')] bg-cover"></div>
         </div>
         
         {/* Geometric elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-pink-200 to-indigo-200 mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-96 h-96 rounded-full bg-gradient-to-r from-yellow-200 to-green-200 mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/4 w-72 h-72 rounded-full bg-gradient-to-r from-blue-200 to-cyan-200 mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '4s' }}></div>
+          <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-pink-200 to-indigo-200 mix-blend-multiply filter blur-3xl opacity-40 animate-pulse"></div>
+          <div className="absolute bottom-1/3 left-1/3 w-96 h-96 rounded-full bg-gradient-to-r from-yellow-200 to-green-200 mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/4 w-72 h-72 rounded-full bg-gradient-to-r from-blue-200 to-cyan-200 mix-blend-multiply filter blur-3xl opacity-40 animate-pulse" style={{ animationDelay: '4s' }}></div>
         </div>
         
         {/* Interactive elements */}
@@ -67,40 +67,42 @@ const DashboardLayout = () => {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMxMTE4MjciIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0aDR2MWgtNHYtMXptMC0yaDF2NGgtMXYtNHptNiAwaDF2NGgtMXYtNHptLTEwLjUgMS41aC4yNXYyaC0uMjV2LTJ6bTIuMjUgMGguMjV2MmgtLjI1di0yem0tNC41IDBoLjI1djJoLS4yNXYtMnptMTAuNSAwaDMuMjV2MmgtMy4yNXYtMnptNS43NSAwaDMuMjV2MmgtMy4yNXYtMnpNMzYgMzZoMXYyaC0xdi0yem00IDBoMXYyaC0xdi0yem0tOC41LTEuNWgtLjI1di0yaC4yNXYyem0tMi4yNSAwaC0uMjV2LTJoLjI1djJ6bTQuNSAwaC0uMjV2LTJoLjI1djJ6bS0xMC41IDBoLTMuMjV2LTJoMy4yNXYyem0tNS43NSAwaC0zLjI1di0yaDMuMjV2MnpNMjggMzRoLTF2LTJoMXYyem0tNCAwSDIzdi0yaDEuMjV2MnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20"></div>
         
         {/* Final overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-white/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-white/60"></div>
       </div>
 
       {/* Sidebar - desktop */}
       <div className="hidden md:flex md:w-64 md:flex-col fixed inset-y-0 z-10">
-        <div className="flex flex-col flex-grow border-r border-gray-200 bg-white/80 backdrop-blur-md pt-5 pb-4 overflow-y-auto shadow-lg">
+        <div className="flex flex-col flex-grow border-r border-gray-200 bg-white/80 backdrop-blur-md pt-5 pb-4 overflow-y-auto shadow-xl">
           <div className="flex items-center flex-shrink-0 px-4">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent hover:-translate-y-1 transition-all duration-300 transform hover:scale-110 cursor-pointer">KodJobs</h1>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent hover:-translate-y-2 transition-all duration-300 transform hover:scale-110 cursor-pointer">
+              KodJobs
+            </h1>
           </div>
           
           {userName && (
-            <div className="px-4 mt-2">
+            <div className="px-4 mt-4 py-2 bg-blue-50/50 rounded-md mx-2">
               <p className="text-sm text-gray-600">Welcome, <span className="font-medium text-blue-600 hover:text-blue-800 transition-colors">{userName}</span>!</p>
             </div>
           )}
           
           <div className="mt-8 flex-grow flex flex-col">
-            <nav className="flex-1 px-2 space-y-1">
+            <nav className="flex-1 px-2 space-y-2">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    "group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md",
+                    "group flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg transform",
                     location.pathname === item.path 
-                      ? "bg-blue-100 text-blue-600 shadow-sm" 
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      ? "bg-blue-100 text-blue-600 shadow-md" 
+                      : "text-gray-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-600"
                   )}
                 >
                   <item.icon className={cn(
                     "mr-3 h-5 w-5 transition-colors", 
                     location.pathname === item.path 
                       ? "text-blue-500" 
-                      : "text-gray-400 group-hover:text-gray-500"
+                      : "text-gray-400 group-hover:text-blue-500"
                   )} />
                   {item.name}
                 </Link>
@@ -109,9 +111,9 @@ const DashboardLayout = () => {
               {/* Logout button */}
               <button
                 onClick={handleLogout}
-                className="group flex w-full items-center px-2 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                className="group flex w-full items-center px-3 py-2.5 text-sm font-medium rounded-md text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
               >
-                <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-red-500" />
                 Logout
               </button>
             </nav>
@@ -164,10 +166,10 @@ const DashboardLayout = () => {
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    "group flex items-center px-2 py-2 text-base font-medium rounded-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md",
+                    "group flex items-center px-2 py-2 text-base font-medium rounded-md transition-all duration-300 hover:-translate-y-1 hover:shadow-md",
                     location.pathname === item.path 
-                      ? "bg-blue-100 text-blue-600 shadow-sm" 
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      ? "bg-blue-100 text-blue-600 shadow-md" 
+                      : "text-gray-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-600"
                   )}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -175,7 +177,7 @@ const DashboardLayout = () => {
                     "mr-3 h-5 w-5 transition-colors", 
                     location.pathname === item.path 
                       ? "text-blue-500" 
-                      : "text-gray-400 group-hover:text-gray-500"
+                      : "text-gray-400 group-hover:text-blue-500"
                   )} />
                   {item.name}
                 </Link>
@@ -184,9 +186,9 @@ const DashboardLayout = () => {
               {/* Logout button */}
               <button
                 onClick={handleLogout}
-                className="group flex w-full items-center px-2 py-2 text-base font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                className="group flex w-full items-center px-2 py-2 text-base font-medium rounded-md text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
               >
-                <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                <LogOut className="mr-3 h-5 w-5 text-gray-400 group-hover:text-red-500" />
                 Logout
               </button>
             </nav>

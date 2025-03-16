@@ -53,8 +53,8 @@ const ProfileCompletion = () => {
   }, []);
 
   return (
-    <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 w-full max-w-xs transform hover:-translate-y-2 hover:shadow-lg transition-all duration-300 hover:bg-gradient-to-br hover:from-white hover:to-blue-50 backdrop-blur-sm">
-      <div className="flex items-center justify-between mb-2">
+    <div className="bg-white/90 shadow-lg rounded-lg p-6 border border-gray-200 w-full max-w-xs transform hover:-translate-y-3 hover:shadow-xl transition-all duration-300 hover:bg-gradient-to-br hover:from-white hover:to-blue-50 backdrop-blur-sm">
+      <div className="flex items-center justify-between mb-3">
         <h2 className="text-lg font-medium bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">Profile Completion</h2>
         <Link to="/dashboard/profile">
           <Button 
@@ -68,15 +68,18 @@ const ProfileCompletion = () => {
         </Link>
       </div>
       <div className="flex items-center gap-2 mb-4">
-        <Progress value={completionPercentage} className="h-2 bg-gray-100" />
+        <Progress 
+          value={completionPercentage} 
+          className="h-2.5 bg-gray-100 rounded-full overflow-hidden" 
+        />
         <span className="text-sm font-medium text-blue-600">{completionPercentage}%</span>
       </div>
-      <ul className="space-y-2">
+      <ul className="space-y-2.5">
         {steps.map((step, index) => (
           <li key={index} className="flex items-center text-sm">
             <HoverCard>
               <HoverCardTrigger asChild>
-                <div className="flex items-center hover:bg-gray-50 p-1 rounded-md w-full cursor-pointer transition-colors hover:translate-x-1">
+                <div className="flex items-center hover:bg-gray-50 p-1.5 rounded-md w-full cursor-pointer transition-colors hover:translate-x-1.5 transform duration-200">
                   {step.completed ? (
                     <CheckCircle2 className="h-4 w-4 text-green-500 mr-2" />
                   ) : (
@@ -118,8 +121,8 @@ const ProfileCompletion = () => {
       ) : (
         <Link to="/dashboard/profile" className="inline-block w-full mt-4">
           <Button 
-            variant="outline" 
-            className="w-full justify-center hover:bg-blue-50 hover:text-blue-700 hover:scale-105 transition-transform"
+            variant="3d" 
+            className="w-full justify-center hover:bg-blue-600 hover:text-white hover:scale-105 transition-transform"
           >
             Complete Your Profile
           </Button>
