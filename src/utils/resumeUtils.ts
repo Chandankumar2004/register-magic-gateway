@@ -44,3 +44,12 @@ export const formatFileSize = (bytes: number): string => {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   }
 };
+
+export const deleteResume = (): void => {
+  try {
+    localStorage.removeItem('userResume');
+    console.log('Resume data deleted successfully');
+  } catch (error) {
+    console.error('Error deleting resume data:', error);
+  }
+};
