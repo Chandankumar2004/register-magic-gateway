@@ -1,14 +1,16 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, BookText, Briefcase, User, Menu, X, BriefcaseIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { getUserByUsername } from '@/utils/storage';
 
 const DashboardLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userName, setUserName] = useState('');
 
   const navItems = [
     { name: 'Home', path: '/dashboard', icon: Home },
@@ -17,6 +19,18 @@ const DashboardLayout = () => {
     { name: 'My Jobs', path: '/dashboard/my-jobs', icon: BriefcaseIcon },
     { name: 'Profile', path: '/dashboard/profile', icon: User },
   ];
+  
+  useEffect(() => {
+    // Get all stored users and find the first one as the logged in user
+    // This is a simplified approach since we don't have real auth
+    const users = localStorage.getItem('registered_users');
+    if (users) {
+      const parsedUsers = JSON.parse(users);
+      if (parsedUsers.length > 0) {
+        setUserName(parsedUsers[0].fullName || parsedUsers[0].username);
+      }
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 flex relative">
@@ -34,8 +48,15 @@ const DashboardLayout = () => {
       <div className="hidden md:flex md:w-64 md:flex-col fixed inset-y-0 z-10">
         <div className="flex flex-col flex-grow border-r border-gray-200 bg-white/80 backdrop-blur-md pt-5 pb-4 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-4">
-            <h1 className="text-xl font-bold text-blue-600">Dashboard</h1>
+            <h1 className="text-xl font-bold text-blue-600">KodJobs</h1>
           </div>
+          
+          {userName && (
+            <div className="px-4 mt-2">
+              <p className="text-sm text-gray-600">Welcome, <span className="font-medium text-blue-600">{userName}</span>!</p>
+            </div>
+          )}
+          
           <div className="mt-8 flex-grow flex flex-col">
             <nav className="flex-1 px-2 space-y-1">
               {navItems.map((item) => (
@@ -66,7 +87,7 @@ const DashboardLayout = () => {
       {/* Mobile menu button */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-10 bg-white/90 backdrop-blur-sm border-b border-gray-200 px-4 py-2">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-blue-600">Dashboard</h1>
+          <h1 className="text-xl font-bold text-blue-600">KodJobs</h1>
           <Button
             variant="ghost"
             size="icon"
@@ -83,7 +104,7 @@ const DashboardLayout = () => {
         <div className="md:hidden fixed inset-0 z-40 bg-gray-600 bg-opacity-75">
           <div className="fixed inset-y-0 left-0 flex flex-col w-full max-w-xs bg-white shadow-xl">
             <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200">
-              <h1 className="text-xl font-bold text-blue-600">Dashboard</h1>
+              <h1 className="text-xl font-bold text-blue-600">KodJobs</h1>
               <Button
                 variant="ghost"
                 size="icon"
@@ -93,6 +114,13 @@ const DashboardLayout = () => {
                 <X className="h-6 w-6" />
               </Button>
             </div>
+            
+            {userName && (
+              <div className="px-4 py-2 border-b border-gray-100">
+                <p className="text-sm text-gray-600">Welcome, <span className="font-medium text-blue-600">{userName}</span>!</p>
+              </div>
+            )}
+            
             <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
               {navItems.map((item) => (
                 <Link

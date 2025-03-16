@@ -13,6 +13,7 @@ import Blog from "./pages/dashboard/Blog";
 import Jobs from "./pages/dashboard/Jobs";
 import MyJobs from "./pages/dashboard/MyJobs";
 import Profile from "./pages/dashboard/Profile";
+import JobDetails from "./pages/dashboard/JobDetails";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="jobs" element={<Jobs />} />
             <Route path="my-jobs" element={<MyJobs />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="job/:id" element={<JobDetails />} />
           </Route>
           
           {/* Catch-all route */}

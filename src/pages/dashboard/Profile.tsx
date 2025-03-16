@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon, Upload, Loader2, MapPin, GraduationCap } from 'lucide-react';
+import { CalendarIcon, Loader2, MapPin, GraduationCap, UploadCloud } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
@@ -53,6 +53,29 @@ const Profile = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeInfo, setResumeInfo] = useState<{name: string, size: number} | null>(null);
+  
+  useEffect(() => {
+    // Check if we have a stored resume
+    const storedResume = localStorage.getItem('userResume');
+    if (storedResume) {
+      try {
+        const resumeData = JSON.parse(storedResume);
+        setResumeInfo({
+          name: resumeData.name,
+          size: resumeData.size
+        });
+      } catch (error) {
+        console.error('Error parsing stored resume data:', error);
+      }
+    }
+    
+    // Check if we have a stored profile photo
+    const storedPhoto = localStorage.getItem('userProfilePhoto');
+    if (storedPhoto) {
+      setProfilePhoto(storedPhoto);
+    }
+  }, []);
   
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -70,6 +93,9 @@ const Profile = () => {
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Save profile data to localStorage
+      localStorage.setItem('userProfile', JSON.stringify(values));
       
       toast.success('Profile updated successfully', {
         description: 'Your profile information has been saved.',
@@ -89,7 +115,10 @@ const Profile = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setProfilePhoto(e.target?.result as string);
+        const result = e.target?.result as string;
+        setProfilePhoto(result);
+        // Store the photo in localStorage
+        localStorage.setItem('userProfilePhoto', result);
       };
       reader.readAsDataURL(file);
     }
@@ -98,7 +127,35 @@ const Profile = () => {
   const handleResumeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      // Check file size (max 10MB)
+      const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+      if (file.size > maxSize) {
+        toast.error('File too large', {
+          description: 'Maximum file size is 10MB.',
+        });
+        return;
+      }
+      
       setResumeFile(file);
+      setResumeInfo({
+        name: file.name,
+        size: file.size
+      });
+      
+      // Store resume info in localStorage
+      // In a real app, you'd upload this to a server/storage
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // Store file metadata in localStorage (not the actual binary data for simplicity)
+        localStorage.setItem('userResume', JSON.stringify({
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          date: new Date().toISOString(),
+        }));
+      };
+      reader.readAsText(file); // Just to trigger onload, we don't actually need the content
+      
       toast.success('Resume uploaded', {
         description: `File "${file.name}" has been uploaded.`,
       });
@@ -268,12 +325,24 @@ const Profile = () => {
             </h2>
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
               <div className="mb-4">
-                {resumeFile ? (
-                  <p className="text-sm text-gray-700">
-                    <span className="font-medium">{resumeFile.name}</span> ({Math.round(resumeFile.size / 1024)} KB)
-                  </p>
+                {resumeInfo ? (
+                  <div className="text-sm">
+                    <div className="flex items-center justify-center mb-2">
+                      <div className="bg-blue-100 rounded-lg p-3">
+                        <UploadCloud className="h-8 w-8 text-blue-500" />
+                      </div>
+                    </div>
+                    <p className="font-medium text-gray-800">{resumeInfo.name}</p>
+                    <p className="text-gray-500">{Math.round(resumeInfo.size / 1024)} KB</p>
+                  </div>
                 ) : (
-                  <Upload className="mx-auto h-10 w-10 text-gray-400" />
+                  <div className="flex flex-col items-center">
+                    <UploadCloud className="mx-auto h-16 w-16 text-gray-400 mb-2" />
+                    <p className="text-gray-600">No resume uploaded yet</p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      You must upload a resume to apply for jobs
+                    </p>
+                  </div>
                 )}
               </div>
               <div className="space-y-2">
@@ -281,7 +350,7 @@ const Profile = () => {
                   htmlFor="resume-upload" 
                   className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors"
                 >
-                  {resumeFile ? 'Replace resume' : 'Upload resume'}
+                  {resumeInfo ? 'Replace resume' : 'Upload resume'}
                 </Label>
                 <Input 
                   id="resume-upload" 
@@ -290,7 +359,7 @@ const Profile = () => {
                   accept=".pdf,.doc,.docx"
                   onChange={handleResumeUpload}
                 />
-                <p className="text-xs text-gray-500">Accepted formats: PDF, DOC, DOCX (Max 5MB)</p>
+                <p className="text-xs text-gray-500">Accepted formats: PDF, DOC, DOCX (Max 10MB)</p>
               </div>
             </div>
           </div>
@@ -309,7 +378,7 @@ const Profile = () => {
                   />
                 ) : (
                   <div className="h-full w-full flex items-center justify-center">
-                    <Upload className="h-10 w-10 text-gray-400" />
+                    <UploadCloud className="h-10 w-10 text-gray-400" />
                   </div>
                 )}
               </div>
