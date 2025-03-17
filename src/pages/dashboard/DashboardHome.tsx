@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { ArrowRightCircle, ArrowLeftCircle, UploadCloud } from 'lucide-react';
+import { ArrowRightCircle, ArrowLeftCircle, UploadCloud, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import ProfileCompletion from '@/components/ProfileCompletion';
@@ -10,7 +9,6 @@ import { hasUploadedResume } from '@/utils/resumeUtils';
 const DashboardHome = () => {
   const navigate = useNavigate();
   
-  // Get user name from localStorage
   const getUserName = () => {
     const users = localStorage.getItem('registered_users');
     if (users) {
@@ -33,7 +31,6 @@ const DashboardHome = () => {
     });
   };
   
-  // Job cards data - 20 example jobs
   const jobCards = [
     { title: "Frontend Developer", company: "TechCorp", location: "San Francisco, CA", salary: "$120K - $150K", tags: ["React", "TypeScript", "Remote"] },
     { title: "Backend Engineer", company: "DataSystems", location: "New York, NY", salary: "$130K - $160K", tags: ["Node.js", "Python", "Hybrid"] },
