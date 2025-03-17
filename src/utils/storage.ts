@@ -1,3 +1,4 @@
+
 export interface UserData {
   username: string;
   password: string;
@@ -7,6 +8,7 @@ export interface UserData {
 }
 
 const STORAGE_KEY = 'registered_users';
+const CURRENT_USER_KEY = 'currentUser';
 
 export const saveUserData = (userData: UserData): void => {
   try {
@@ -19,6 +21,9 @@ export const saveUserData = (userData: UserData): void => {
     
     // Save back to localStorage
     localStorage.setItem(STORAGE_KEY, JSON.stringify(existingUsers));
+    
+    // Set as current user after registration
+    setCurrentUser(userData);
     
     console.log('User data saved successfully');
   } catch (error) {
@@ -46,5 +51,24 @@ export const getAllUsers = (): UserData[] => {
   } catch (error) {
     console.error('Error retrieving all users:', error);
     return [];
+  }
+};
+
+export const setCurrentUser = (userData: UserData): void => {
+  try {
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(userData));
+  } catch (error) {
+    console.error('Error setting current user:', error);
+  }
+};
+
+export const getCurrentUser = (): UserData | null => {
+  try {
+    const currentUserJSON = localStorage.getItem(CURRENT_USER_KEY);
+    if (!currentUserJSON) return null;
+    return JSON.parse(currentUserJSON);
+  } catch (error) {
+    console.error('Error getting current user:', error);
+    return null;
   }
 };

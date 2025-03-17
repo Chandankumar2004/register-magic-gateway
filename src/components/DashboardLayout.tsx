@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import BackgroundEffect from './dashboard/BackgroundEffect';
 import DesktopSidebar from './dashboard/DesktopSidebar';
 import MobileSidebar from './dashboard/MobileSidebar';
+import { getUserByUsername } from '@/utils/storage';
 
 const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -12,17 +13,29 @@ const DashboardLayout = () => {
   
   const handleLogout = () => {
     // Simple logout functionality - redirect to home
+    // Clear current user when logging out
+    localStorage.removeItem('currentUser');
     navigate('/');
   };
   
   useEffect(() => {
-    // Get all stored users and find the first one as the logged in user
-    // This is a simplified approach since we don't have real auth
-    const users = localStorage.getItem('registered_users');
-    if (users) {
-      const parsedUsers = JSON.parse(users);
-      if (parsedUsers.length > 0) {
-        setUserName(parsedUsers[0].fullName || parsedUsers[0].username);
+    // Get the current logged in user
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      try {
+        const userData = JSON.parse(currentUser);
+        setUserName(userData.fullName || userData.username);
+      } catch (error) {
+        console.error('Error parsing current user data:', error);
+      }
+    } else {
+      // Fallback to first user if no current user (legacy behavior)
+      const users = localStorage.getItem('registered_users');
+      if (users) {
+        const parsedUsers = JSON.parse(users);
+        if (parsedUsers.length > 0) {
+          setUserName(parsedUsers[0].fullName || parsedUsers[0].username);
+        }
       }
     }
   }, []);

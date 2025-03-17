@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowRightCircle, ArrowLeftCircle, UploadCloud, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,11 +5,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import ProfileCompletion from '@/components/ProfileCompletion';
 import { toast } from 'sonner';
 import { hasUploadedResume } from '@/utils/resumeUtils';
+import { getCurrentUser } from '@/utils/storage';
 
 const DashboardHome = () => {
   const navigate = useNavigate();
   
   const getUserName = () => {
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      return currentUser.fullName || currentUser.username;
+    }
+    
     const users = localStorage.getItem('registered_users');
     if (users) {
       const parsedUsers = JSON.parse(users);
