@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -190,36 +191,36 @@ const Profile = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+    <div className="space-y-4">
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-2">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">Your Profile</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-indigo-700 bg-clip-text text-transparent">Your Profile</h1>
+          <p className="text-muted-foreground text-sm">
             Manage your personal information and qualifications
           </p>
         </div>
         <ProfileCompletion />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="col-span-2 space-y-6">
-          <div className="bg-white/90 shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="col-span-2 space-y-4">
+          <div className="bg-white/95 shadow-xl rounded-lg p-6 border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-medium text-blue-600 flex items-center">
+              <h2 className="text-lg font-medium text-purple-600 flex items-center">
                 <PenLine className="mr-2 h-4 w-4" />
                 Personal Information
               </h2>
               <Button 
                 variant="ghost"
                 size="sm"
-                className="h-8 text-blue-600 hover:bg-blue-50 hover:text-blue-700 transform hover:scale-105 transition-all"
+                className="h-8 text-purple-600 hover:bg-purple-50 hover:text-purple-700 transform hover:scale-105 transition-all"
               >
                 Edit
               </Button>
             </div>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                <div className="space-y-4">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <div className="grid gap-4 md:grid-cols-2">
                   <FormField
                     control={form.control}
                     name="fullName"
@@ -229,7 +230,7 @@ const Profile = () => {
                         <FormControl>
                           <Input 
                             placeholder="John Doe" 
-                            className="h-11" 
+                            className="h-11 focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition-all" 
                             {...field} 
                           />
                         </FormControl>
@@ -247,7 +248,7 @@ const Profile = () => {
                         <FormControl>
                           <Input 
                             placeholder="Frontend Developer" 
-                            className="h-11" 
+                            className="h-11 focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition-all" 
                             {...field} 
                           />
                         </FormControl>
@@ -255,25 +256,27 @@ const Profile = () => {
                       </FormItem>
                     )}
                   />
+                </div>
                   
-                  <FormField
-                    control={form.control}
-                    name="education"
-                    render={({ field }) => (
-                      <FormItem className="space-y-1">
-                        <FormLabel>Education/Qualification</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="Bachelor of Science in Computer Science" 
-                            className="h-11" 
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
+                <FormField
+                  control={form.control}
+                  name="education"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1">
+                      <FormLabel>Education/Qualification</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Bachelor of Science in Computer Science" 
+                          className="h-11 focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition-all" 
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <div className="grid gap-4 md:grid-cols-2">
                   <FormField
                     control={form.control}
                     name="graduationYear"
@@ -286,11 +289,11 @@ const Profile = () => {
                               <Button
                                 variant="outline"
                                 className={cn(
-                                  "w-full h-11 justify-start text-left font-normal",
+                                  "w-full h-11 justify-start text-left font-normal hover:bg-purple-50 border-gray-300 hover:border-purple-400",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
-                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                <CalendarIcon className="mr-2 h-4 w-4 text-purple-500" />
                                 {field.value ? (
                                   format(field.value, "yyyy")
                                 ) : (
@@ -328,10 +331,10 @@ const Profile = () => {
                         <FormLabel>Preferred Job Location</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-purple-400" />
                             <Input 
                               placeholder="New York, Remote, etc." 
-                              className="h-11 pl-10" 
+                              className="h-11 pl-10 focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition-all" 
                               {...field} 
                             />
                           </div>
@@ -344,8 +347,7 @@ const Profile = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full h-11 mt-2 transform hover:scale-105 transition-all"
-                  variant="3d"
+                  className="w-full h-11 mt-2 transform hover:scale-105 transition-all bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -358,18 +360,18 @@ const Profile = () => {
             </Form>
           </div>
 
-          <div className="bg-white/90 shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
-            <h2 className="text-lg font-medium mb-4 flex items-center text-blue-600">
+          <div className="bg-white/95 shadow-xl rounded-lg p-6 border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
+            <h2 className="text-lg font-medium mb-4 flex items-center text-purple-600">
               <GraduationCap className="mr-2 h-5 w-5" />
               Resume
             </h2>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-purple-300 transition-colors">
               <div className="mb-4">
                 {resumeInfo ? (
                   <div className="text-sm">
                     <div className="flex items-center justify-center mb-2">
-                      <div className="bg-blue-100 rounded-lg p-3">
-                        <UploadCloud className="h-8 w-8 text-blue-500" />
+                      <div className="bg-purple-100 rounded-lg p-3">
+                        <UploadCloud className="h-8 w-8 text-purple-500" />
                       </div>
                     </div>
                     <p className="font-medium text-gray-800">{resumeInfo.name}</p>
@@ -388,7 +390,7 @@ const Profile = () => {
               <div className="space-y-2">
                 <Label 
                   htmlFor="resume-upload" 
-                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors hover:scale-105 transform"
+                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-purple-50 text-purple-700 rounded-md hover:bg-purple-100 transition-colors hover:scale-105 transform"
                 >
                   {resumeInfo ? 'Replace resume' : 'Upload resume'}
                 </Label>
@@ -405,15 +407,15 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="bg-white/90 shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
+        <div className="space-y-4">
+          <div className="bg-white/95 shadow-xl rounded-lg p-6 border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-medium text-blue-600">Profile Photo</h2>
+              <h2 className="text-lg font-medium text-purple-600">Profile Photo</h2>
               {profilePhoto && (
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 text-blue-600 hover:bg-blue-50 hover:text-blue-700 transform hover:scale-105 transition-all"
+                  className="h-8 text-purple-600 hover:bg-purple-50 hover:text-purple-700 transform hover:scale-105 transition-all"
                   onClick={handleRemoveProfilePhoto}
                 >
                   <Trash2 className="h-4 w-4 mr-1" />
@@ -423,7 +425,7 @@ const Profile = () => {
             </div>
             <div className="flex flex-col items-center space-y-4">
               <div className="relative group">
-                <div className="h-32 w-32 rounded-full overflow-hidden bg-gray-100 border border-gray-200 group-hover:border-blue-300 transition-all duration-300 shadow-lg">
+                <div className="h-36 w-36 rounded-full overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 group-hover:border-purple-300 transition-all duration-300 shadow-lg">
                   {profilePhoto ? (
                     <img 
                       src={profilePhoto} 
@@ -432,22 +434,22 @@ const Profile = () => {
                     />
                   ) : (
                     <div className="h-full w-full flex items-center justify-center">
-                      <UploadCloud className="h-10 w-10 text-gray-400" />
+                      <UploadCloud className="h-12 w-12 text-purple-300" />
                     </div>
                   )}
                 </div>
                 <label 
                   htmlFor="profile-photo" 
-                  className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md cursor-pointer hover:bg-blue-50 transition-colors hover:scale-110 transform duration-200"
+                  className="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow-md cursor-pointer hover:bg-purple-50 transition-colors hover:scale-110 transform duration-200"
                 >
-                  <Camera className="h-4 w-4 text-blue-600" />
+                  <Camera className="h-4 w-4 text-purple-600" />
                   <span className="sr-only">Change profile picture</span>
                 </label>
               </div>
               <div className="space-y-2 text-center">
                 <Label 
                   htmlFor="profile-photo" 
-                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors hover:scale-105 transform"
+                  className="cursor-pointer inline-flex items-center px-4 py-2 bg-purple-50 text-purple-700 rounded-md hover:bg-purple-100 transition-colors hover:scale-105 transform"
                 >
                   {profilePhoto ? 'Change photo' : 'Upload photo'}
                 </Label>
@@ -461,6 +463,36 @@ const Profile = () => {
                 <p className="text-xs text-gray-500 text-center">Recommended: Square JPG or PNG, at least 300x300px</p>
               </div>
             </div>
+          </div>
+          
+          <div className="bg-white/95 shadow-xl rounded-lg p-6 border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
+            <h2 className="text-lg font-medium mb-3 text-purple-600">Tips for a Great Profile</h2>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-start">
+                <div className="bg-purple-100 rounded-full p-1 mr-2 mt-0.5">
+                  <CheckCircle2 className="h-3 w-3 text-purple-600" />
+                </div>
+                <span>Upload a professional, high-quality photo</span>
+              </li>
+              <li className="flex items-start">
+                <div className="bg-purple-100 rounded-full p-1 mr-2 mt-0.5">
+                  <CheckCircle2 className="h-3 w-3 text-purple-600" />
+                </div>
+                <span>Use a specific job title that matches your target roles</span>
+              </li>
+              <li className="flex items-start">
+                <div className="bg-purple-100 rounded-full p-1 mr-2 mt-0.5">
+                  <CheckCircle2 className="h-3 w-3 text-purple-600" />
+                </div>
+                <span>Include your highest education level and graduation year</span>
+              </li>
+              <li className="flex items-start">
+                <div className="bg-purple-100 rounded-full p-1 mr-2 mt-0.5">
+                  <CheckCircle2 className="h-3 w-3 text-purple-600" />
+                </div>
+                <span>Upload an updated resume tailored to your industry</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
