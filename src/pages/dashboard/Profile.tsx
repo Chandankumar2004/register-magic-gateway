@@ -191,7 +191,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-2">
         <div>
           <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-indigo-700 bg-clip-text text-transparent">Your Profile</h1>
@@ -199,11 +199,12 @@ const Profile = () => {
             Manage your personal information and qualifications
           </p>
         </div>
-        <ProfileCompletion />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="col-span-2 space-y-4">
+      {/* Top row with Personal Information and Profile Completion */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Personal Information - Takes 2 columns */}
+        <div className="lg:col-span-2">
           <div className="bg-white/95 shadow-xl rounded-lg p-6 border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-medium text-purple-600 flex items-center">
@@ -359,7 +360,18 @@ const Profile = () => {
               </form>
             </Form>
           </div>
+        </div>
 
+        {/* Profile Completion - Takes 1 column */}
+        <div className="lg:col-span-1">
+          <ProfileCompletion />
+        </div>
+      </div>
+
+      {/* Second row with Resume, Profile Photo and Tips */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Resume section - Takes 2 columns */}
+        <div className="lg:col-span-2">
           <div className="bg-white/95 shadow-xl rounded-lg p-6 border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
             <h2 className="text-lg font-medium mb-4 flex items-center text-purple-600">
               <GraduationCap className="mr-2 h-5 w-5" />
@@ -407,7 +419,9 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="space-y-4">
+        {/* Right sidebar with Profile Photo and Tips */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* Profile Photo */}
           <div className="bg-white/95 shadow-xl rounded-lg p-6 border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-medium text-purple-600">Profile Photo</h2>
@@ -425,7 +439,7 @@ const Profile = () => {
             </div>
             <div className="flex flex-col items-center space-y-4">
               <div className="relative group">
-                <div className="h-36 w-36 rounded-full overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 group-hover:border-purple-300 transition-all duration-300 shadow-lg">
+                <div className="h-32 w-32 rounded-full overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 group-hover:border-purple-300 transition-all duration-300 shadow-lg">
                   {profilePhoto ? (
                     <img 
                       src={profilePhoto} 
@@ -434,7 +448,7 @@ const Profile = () => {
                     />
                   ) : (
                     <div className="h-full w-full flex items-center justify-center">
-                      <UploadCloud className="h-12 w-12 text-purple-300" />
+                      <UploadCloud className="h-10 w-10 text-purple-300" />
                     </div>
                   )}
                 </div>
@@ -465,6 +479,7 @@ const Profile = () => {
             </div>
           </div>
           
+          {/* Tips */}
           <div className="bg-white/95 shadow-xl rounded-lg p-6 border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
             <h2 className="text-lg font-medium mb-3 text-purple-600">Tips for a Great Profile</h2>
             <ul className="space-y-2 text-sm">
