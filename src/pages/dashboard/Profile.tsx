@@ -5,6 +5,7 @@ import PersonalInformationForm from '@/components/profile/PersonalInformationFor
 import ProfilePhotoUpload from '@/components/profile/ProfilePhotoUpload';
 import ResumeUpload from '@/components/profile/ResumeUpload';
 import ProfileTips from '@/components/profile/ProfileTips';
+import SkillsSection from '@/components/profile/SkillsSection';
 
 const Profile = () => {
   const [initialFormData, setInitialFormData] = useState<any>(null);
@@ -21,6 +22,8 @@ const Profile = () => {
           education: profileData.education || '',
           graduationYear: profileData.graduationYear ? new Date(profileData.graduationYear) : undefined,
           location: profileData.location || '',
+          linkedinUrl: profileData.linkedinUrl || '',
+          portfolioUrl: profileData.portfolioUrl || ''
         });
       } catch (error) {
         console.error('Error parsing stored profile data:', error);
@@ -52,16 +55,27 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Second row with Resume, Profile Photo and Tips */}
+      {/* Second row with Skills and Resume */}
       <div className="grid gap-6 lg:grid-cols-3">
+        {/* Skills section - Takes 1 column */}
+        <div className="lg:col-span-1">
+          <SkillsSection />
+        </div>
+
         {/* Resume section - Takes 2 columns */}
         <div className="lg:col-span-2">
           <ResumeUpload />
         </div>
+      </div>
 
-        {/* Right sidebar with Profile Photo and Tips */}
-        <div className="lg:col-span-1 space-y-6">
+      {/* Third row with Profile Photo and Tips */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Profile Photo and Tips - Takes full width but in columns */}
+        <div className="lg:col-span-2">
           <ProfilePhotoUpload />
+        </div>
+
+        <div className="lg:col-span-1">
           <ProfileTips />
         </div>
       </div>

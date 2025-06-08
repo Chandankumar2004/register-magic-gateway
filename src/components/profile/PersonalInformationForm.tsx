@@ -1,248 +1,217 @@
-
-import React, { useState } from 'react';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon, Loader2, MapPin, PenLine } from 'lucide-react';
-import { format } from 'date-fns';
-import { toast } from 'sonner';
-
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CalendarIcon, Save, ExternalLink } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-
-// Form schema validation
-const profileSchema = z.object({
-  fullName: z.string().min(2, {
-    message: 'Full name must be at least 2 characters.',
-  }),
-  title: z.string().min(2, {
-    message: 'Job title must be at least 2 characters.',
-  }),
-  education: z.string().min(2, {
-    message: 'Education details required.',
-  }),
-  graduationYear: z.date({
-    required_error: 'Graduation year is required.',
-  }),
-  location: z.string().min(2, {
-    message: 'Location is required.',
-  }),
-});
-
-type ProfileFormValues = z.infer<typeof profileSchema>;
+import { useToast } from '@/hooks/use-toast';
 
 interface PersonalInformationFormProps {
-  initialData?: Partial<ProfileFormValues>;
+  initialData?: any;
 }
 
 const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ initialData }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: {
-      fullName: initialData?.fullName || '',
-      title: initialData?.title || '',
-      education: initialData?.education || '',
-      location: initialData?.location || '',
-      graduationYear: initialData?.graduationYear,
-    },
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    fullName: '',
+    title: '',
+    education: '',
+    graduationYear: undefined as Date | undefined,
+    location: '',
+    linkedinUrl: '',
+    portfolioUrl: ''
   });
 
-  const onSubmit = async (values: ProfileFormValues) => {
-    setIsSubmitting(true);
+  useEffect(() => {
+    // Load existing profile data
+    const userProfile = localStorage.getItem('userProfile');
+    if (userProfile) {
+      try {
+        const profileData = JSON.parse(userProfile);
+        setFormData({
+          fullName: profileData.fullName || '',
+          title: profileData.title || '',
+          education: profileData.education || '',
+          graduationYear: profileData.graduationYear ? new Date(profileData.graduationYear) : undefined,
+          location: profileData.location || '',
+          linkedinUrl: profileData.linkedinUrl || '',
+          portfolioUrl: profileData.portfolioUrl || ''
+        });
+      } catch (error) {
+        console.error('Error parsing stored profile data:', error);
+      }
+    }
+  }, []);
+
+  const handleInputChange = (field: string, value: string | Date | undefined) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Get existing profile data
+      const existingProfile = localStorage.getItem('userProfile');
+      const profileData = existingProfile ? JSON.parse(existingProfile) : {};
       
-      // Save profile data to localStorage
-      localStorage.setItem('userProfile', JSON.stringify(values));
+      // Update with new form data
+      const updatedProfile = {
+        ...profileData,
+        ...formData,
+        lastUpdated: new Date().toISOString()
+      };
       
-      toast.success('Profile updated successfully', {
-        description: 'Your profile information has been saved.',
+      // Save to localStorage
+      localStorage.setItem('userProfile', JSON.stringify(updatedProfile));
+      
+      // Update current user data as well
+      const currentUser = localStorage.getItem('currentUser');
+      if (currentUser) {
+        const userData = JSON.parse(currentUser);
+        const updatedUser = { ...userData, ...formData };
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+      }
+      
+      toast({
+        title: "Profile Updated",
+        description: "Your personal information has been saved successfully.",
       });
     } catch (error) {
-      console.error('Profile update error:', error);
-      toast.error('Update failed', {
-        description: 'Please try again later.',
+      console.error('Error saving profile data:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save your information. Please try again.",
+        variant: "destructive",
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="bg-white/95 shadow-xl rounded-lg p-6 border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-medium text-purple-600 flex items-center">
-          <PenLine className="mr-2 h-4 w-4" />
-          Personal Information
-        </h2>
-        <Button 
-          variant="ghost"
-          size="sm"
-          className="h-8 text-purple-600 hover:bg-purple-50 hover:text-purple-700 transform hover:scale-105 transition-all"
-        >
-          Edit
-        </Button>
-      </div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="John Doe" 
-                      className="h-11 focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition-all" 
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel>Professional Title</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="Frontend Developer" 
-                      className="h-11 focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition-all" 
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-            
-          <FormField
-            control={form.control}
-            name="education"
-            render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel>Education/Qualification</FormLabel>
-                <FormControl>
-                  <Input 
-                    placeholder="Bachelor of Science in Computer Science" 
-                    className="h-11 focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition-all" 
-                    {...field} 
+    <Card className="bg-white/95 shadow-xl backdrop-blur-sm border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+      <CardHeader>
+        <CardTitle className="text-xl font-semibold text-purple-600">Personal Information</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="fullName">Full Name</Label>
+              <Input
+                id="fullName"
+                value={formData.fullName}
+                onChange={(e) => handleInputChange('fullName', e.target.value)}
+                placeholder="Enter your full name"
+                className="transition-all duration-200 focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="title">Job Title</Label>
+              <Input
+                id="title"
+                value={formData.title}
+                onChange={(e) => handleInputChange('title', e.target.value)}
+                placeholder="e.g., Software Developer"
+                className="transition-all duration-200 focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="education">Education</Label>
+              <Input
+                id="education"
+                value={formData.education}
+                onChange={(e) => handleInputChange('education', e.target.value)}
+                placeholder="e.g., Computer Science"
+                className="transition-all duration-200 focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Graduation Year</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !formData.graduationYear && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {formData.graduationYear ? format(formData.graduationYear, "yyyy") : "Select year"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={formData.graduationYear}
+                    onSelect={(date) => handleInputChange('graduationYear', date)}
+                    disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                    initialFocus
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <div className="grid gap-4 md:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="graduationYear"
-              render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel>Graduation Year</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full h-11 justify-start text-left font-normal hover:bg-purple-50 border-gray-300 hover:border-purple-400",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4 text-purple-500" />
-                          {field.value ? (
-                            format(field.value, "yyyy")
-                          ) : (
-                            <span>Select graduation year</span>
-                          )}
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1950-01-01")
-                        }
-                        initialFocus
-                        captionLayout="dropdown-buttons"
-                        fromYear={1950}
-                        toYear={new Date().getFullYear()}
-                        className="p-3"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel>Preferred Job Location</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-purple-400" />
-                      <Input 
-                        placeholder="New York, Remote, etc." 
-                        className="h-11 pl-10 focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition-all" 
-                        {...field} 
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="location">Location</Label>
+              <Input
+                id="location"
+                value={formData.location}
+                onChange={(e) => handleInputChange('location', e.target.value)}
+                placeholder="e.g., New York, NY"
+                className="transition-all duration-200 focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="linkedinUrl" className="flex items-center gap-2">
+                LinkedIn Profile
+                <ExternalLink className="h-3 w-3" />
+              </Label>
+              <Input
+                id="linkedinUrl"
+                value={formData.linkedinUrl}
+                onChange={(e) => handleInputChange('linkedinUrl', e.target.value)}
+                placeholder="https://linkedin.com/in/yourprofile"
+                className="transition-all duration-200 focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="portfolioUrl" className="flex items-center gap-2">
+                Portfolio Website
+                <ExternalLink className="h-3 w-3" />
+              </Label>
+              <Input
+                id="portfolioUrl"
+                value={formData.portfolioUrl}
+                onChange={(e) => handleInputChange('portfolioUrl', e.target.value)}
+                placeholder="https://yourportfolio.com"
+                className="transition-all duration-200 focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
           </div>
 
           <Button 
             type="submit" 
-            className="w-full h-11 mt-2 transform hover:scale-105 transition-all bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-            disabled={isSubmitting}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-all duration-300 transform hover:scale-105"
           >
-            {isSubmitting ? (
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-            ) : (
-              'Save Profile'
-            )}
+            <Save className="mr-2 h-4 w-4" />
+            Save Personal Information
           </Button>
         </form>
-      </Form>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
