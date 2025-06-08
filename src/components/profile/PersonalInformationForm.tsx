@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,6 +22,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ initi
     title: '',
     education: '',
     graduationYear: undefined as Date | undefined,
+    dateOfBirth: undefined as Date | undefined,
     location: '',
     linkedinUrl: '',
     portfolioUrl: ''
@@ -37,6 +39,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ initi
           title: profileData.title || '',
           education: profileData.education || '',
           graduationYear: profileData.graduationYear ? new Date(profileData.graduationYear) : undefined,
+          dateOfBirth: profileData.dateOfBirth ? new Date(profileData.dateOfBirth) : undefined,
           location: profileData.location || '',
           linkedinUrl: profileData.linkedinUrl || '',
           portfolioUrl: profileData.portfolioUrl || ''
@@ -54,8 +57,29 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ initi
     }));
   };
 
+  const validateAge = (birthDate: Date): boolean => {
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      return age - 1 >= 16;
+    }
+    return age >= 16;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate date of birth
+    if (formData.dateOfBirth && !validateAge(formData.dateOfBirth)) {
+      toast({
+        title: "Invalid Date of Birth",
+        description: "You must be at least 16 years old.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     try {
       // Get existing profile data
@@ -125,6 +149,34 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ initi
             </div>
 
             <div className="space-y-2">
+              <Label>Date of Birth</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !formData.dateOfBirth && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {formData.dateOfBirth ? format(formData.dateOfBirth, "PPP") : "Select your birthdate"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={formData.dateOfBirth}
+                    onSelect={(date) => handleInputChange('dateOfBirth', date)}
+                    disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                    initialFocus
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="education">Education</Label>
               <Input
                 id="education"
@@ -157,6 +209,7 @@ const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ initi
                     onSelect={(date) => handleInputChange('graduationYear', date)}
                     disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                     initialFocus
+                    className="pointer-events-auto"
                   />
                 </PopoverContent>
               </Popover>

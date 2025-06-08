@@ -6,6 +6,7 @@ import ProfilePhotoUpload from '@/components/profile/ProfilePhotoUpload';
 import ResumeUpload from '@/components/profile/ResumeUpload';
 import ProfileTips from '@/components/profile/ProfileTips';
 import SkillsSection from '@/components/profile/SkillsSection';
+import AIJobAssistant from '@/components/profile/AIJobAssistant';
 
 const Profile = () => {
   const [initialFormData, setInitialFormData] = useState<any>(null);
@@ -21,6 +22,7 @@ const Profile = () => {
           title: profileData.title || '',
           education: profileData.education || '',
           graduationYear: profileData.graduationYear ? new Date(profileData.graduationYear) : undefined,
+          dateOfBirth: profileData.dateOfBirth ? new Date(profileData.dateOfBirth) : undefined,
           location: profileData.location || '',
           linkedinUrl: profileData.linkedinUrl || '',
           portfolioUrl: profileData.portfolioUrl || ''
@@ -40,6 +42,11 @@ const Profile = () => {
             Manage your personal information and qualifications
           </p>
         </div>
+      </div>
+
+      {/* AI Job Assistant Section */}
+      <div className="w-full">
+        <AIJobAssistant />
       </div>
 
       {/* Top row with Personal Information and Profile Completion */}
