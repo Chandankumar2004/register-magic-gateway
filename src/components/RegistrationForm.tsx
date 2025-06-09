@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -66,7 +67,27 @@ const RegistrationForm = () => {
     },
   });
 
+  const validateAge = (birthDate: Date): boolean => {
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      return age - 1 >= 16;
+    }
+    return age >= 16;
+  };
+
   const onSubmit = async (values: FormValues) => {
+    // Validate age before submission
+    if (!validateAge(values.dateOfBirth)) {
+      form.setError('dateOfBirth', {
+        type: 'manual',
+        message: 'You must be at least 16 years old to register.',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -96,6 +117,11 @@ const RegistrationForm = () => {
       setIsSubmitting(false);
     }
   };
+
+  // Calculate a reasonable default year (25 years ago)
+  const defaultYear = new Date().getFullYear() - 25;
+  const defaultMonth = new Date();
+  const initialFocus = new Date(defaultYear, defaultMonth.getMonth(), 1);
 
   return (
     <div className="w-full max-w-md space-y-8 animate-fade-up bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg">
@@ -206,7 +232,7 @@ const RegistrationForm = () => {
                           {field.value ? (
                             format(field.value, "PPP")
                           ) : (
-                            <span>Select your date of birth</span>
+                            <span>Select your birthdate</span>
                           )}
                         </Button>
                       </FormControl>
@@ -219,11 +245,18 @@ const RegistrationForm = () => {
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
+                        defaultMonth={initialFocus}
                         initialFocus
                         className="p-3 pointer-events-auto"
+                        captionLayout="dropdown-buttons"
+                        fromYear={1900}
+                        toYear={new Date().getFullYear()}
                       />
                     </PopoverContent>
                   </Popover>
+                  <FormDescription className="text-xs">
+                    You must be at least 16 years old to register
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

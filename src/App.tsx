@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -24,12 +24,14 @@ const App = () => (
       <Sonner position="top-right" expand={true} closeButton richColors />
       <BrowserRouter>
         <Routes>
+          {/* Public routes */}
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           
-          {/* Dashboard Routes */}
+          {/* Dashboard routes with nested routing */}
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardHome />} />
+            <Route path="home" element={<Navigate to="/dashboard" replace />} />
             <Route path="blog" element={<Blog />} />
             <Route path="jobs" element={<Jobs />} />
             <Route path="my-jobs" element={<MyJobs />} />
@@ -37,7 +39,10 @@ const App = () => (
             <Route path="job/:id" element={<JobDetails />} />
           </Route>
           
-          {/* Catch-all route */}
+          {/* Redirect old paths */}
+          <Route path="/dashboard/*" element={<DashboardLayout />} />
+          
+          {/* Catch-all route for 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
