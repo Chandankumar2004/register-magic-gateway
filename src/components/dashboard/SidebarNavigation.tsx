@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, BookText, Briefcase, User, BriefcaseIcon, LogOut } from 'lucide-react';
+import { Home, BookText, Briefcase, User, BriefcaseIcon, LogOut, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface SidebarNavigationProps {
@@ -17,6 +17,7 @@ const SidebarNavigation = ({ onMobileClose, onLogout }: SidebarNavigationProps) 
     { name: 'Blog', path: '/dashboard/blog', icon: BookText },
     { name: 'Jobs', path: '/dashboard/jobs', icon: Briefcase },
     { name: 'My Jobs', path: '/dashboard/my-jobs', icon: BriefcaseIcon },
+    { name: 'AI Assistant', path: '/dashboard/ai-assistant', icon: Bot },
     { name: 'Profile', path: '/dashboard/profile', icon: User },
   ];
 
