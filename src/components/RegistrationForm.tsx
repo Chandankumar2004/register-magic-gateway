@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
@@ -230,9 +229,9 @@ const RegistrationForm = () => {
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(field.value, "dd/MM/yyyy")
                           ) : (
-                            <span>Select your birthdate</span>
+                            <span>Select your date of birth (DD/MM/YYYY)</span>
                           )}
                         </Button>
                       </FormControl>
@@ -255,7 +254,7 @@ const RegistrationForm = () => {
                     </PopoverContent>
                   </Popover>
                   <FormDescription className="text-xs">
-                    You must be at least 16 years old to register
+                    Enter your birth date in DD/MM/YYYY format. You must be at least 16 years old to register
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
