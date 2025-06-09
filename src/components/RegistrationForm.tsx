@@ -25,6 +25,13 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { saveUserData } from '@/utils/storage';
 
@@ -54,6 +61,10 @@ type FormValues = z.infer<typeof formSchema>;
 
 const RegistrationForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState<Date>(() => {
+    const defaultYear = new Date().getFullYear() - 25;
+    return new Date(defaultYear, 0, 1);
+  });
   const navigate = useNavigate();
   
   const form = useForm<FormValues>({
@@ -117,10 +128,26 @@ const RegistrationForm = () => {
     }
   };
 
-  // Calculate a reasonable default year (25 years ago)
-  const defaultYear = new Date().getFullYear() - 25;
-  const defaultMonth = new Date();
-  const initialFocus = new Date(defaultYear, defaultMonth.getMonth(), 1);
+  // Generate years from 1900 to current year
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 1900 + 1 }, (_, i) => currentYear - i);
+  
+  // Generate months
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  const handleMonthChange = (month: string) => {
+    const monthIndex = months.indexOf(month);
+    const newDate = new Date(calendarMonth.getFullYear(), monthIndex, 1);
+    setCalendarMonth(newDate);
+  };
+
+  const handleYearChange = (year: string) => {
+    const newDate = new Date(parseInt(year), calendarMonth.getMonth(), 1);
+    setCalendarMonth(newDate);
+  };
 
   return (
     <div className="w-full max-w-md space-y-8 animate-fade-up bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg">
@@ -237,6 +264,41 @@ const RegistrationForm = () => {
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
+                      <div className="p-3 border-b space-y-2">
+                        <div className="flex gap-2">
+                          <Select
+                            value={months[calendarMonth.getMonth()]}
+                            onValueChange={handleMonthChange}
+                          >
+                            <SelectTrigger className="w-32">
+                              <SelectValue placeholder="Month" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {months.map((month) => (
+                                <SelectItem key={month} value={month}>
+                                  {month}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          
+                          <Select
+                            value={calendarMonth.getFullYear().toString()}
+                            onValueChange={handleYearChange}
+                          >
+                            <SelectTrigger className="w-20">
+                              <SelectValue placeholder="Year" />
+                            </SelectTrigger>
+                            <SelectContent className="max-h-48">
+                              {years.map((year) => (
+                                <SelectItem key={year} value={year.toString()}>
+                                  {year}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
                       <Calendar
                         mode="single"
                         selected={field.value}
@@ -244,12 +306,11 @@ const RegistrationForm = () => {
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
-                        defaultMonth={initialFocus}
+                        month={calendarMonth}
+                        onMonthChange={setCalendarMonth}
                         initialFocus
                         className="p-3 pointer-events-auto"
-                        captionLayout="dropdown-buttons"
-                        fromYear={1900}
-                        toYear={new Date().getFullYear()}
+                        showOutsideDays={false}
                       />
                     </PopoverContent>
                   </Popover>
