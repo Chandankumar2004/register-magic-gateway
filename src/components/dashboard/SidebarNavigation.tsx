@@ -17,7 +17,7 @@ const SidebarNavigation = ({ onMobileClose, onLogout }: SidebarNavigationProps) 
     { name: 'Blog', path: '/dashboard/blog', icon: BookText },
     { name: 'Jobs', path: '/dashboard/jobs', icon: Briefcase },
     { name: 'My Jobs', path: '/dashboard/my-jobs', icon: BriefcaseIcon },
-    { name: 'AI Assistant', path: '/dashboard/ai-assistant', icon: Bot },
+    { name: 'AI Job Assistant', path: '/dashboard/ai-assistant', icon: Bot },
     { name: 'Profile', path: '/dashboard/profile', icon: User },
   ];
 
