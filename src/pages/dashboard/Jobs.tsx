@@ -623,9 +623,9 @@ const Jobs = () => {
                   </div>
                 )}
                 {/* Show match score if available */}
-                {job.match && (
+                {(job as any).match && (
                   <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
-                    {job.match.matchScore}% Match
+                    {(job as any).match.matchScore}% Match
                   </div>
                 )}
               </div>
@@ -807,3 +807,5 @@ const Jobs = () => {
 };
 
 export default Jobs;
+
+</edits_to_apply>
