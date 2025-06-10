@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,7 @@ import { toast } from 'sonner';
 import { Briefcase, MapPin, Building, Clock, Search, Filter, ExternalLink, Eye } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import SmartJobFilter from '@/components/jobs/SmartJobFilter';
 
 // Expanded job data - 40 entries with full details in Jooble/Muse API style
 const sampleJobs = [
@@ -491,11 +491,13 @@ const sampleJobs = [
 
 const Jobs = () => {
   const [jobs, setJobs] = useState(sampleJobs);
+  const [filteredJobs, setFilteredJobs] = useState(sampleJobs);
   const [appliedJobs, setAppliedJobs] = useState<number[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedJob, setSelectedJob] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [hasResume, setHasResume] = useState(false);
+  const [showSmartFilter, setShowSmartFilter] = useState(false);
 
   // Load applied jobs from localStorage on component mount
   useEffect(() => {
@@ -530,6 +532,19 @@ const Jobs = () => {
     });
   };
 
+  const handleApplyMultiple = (jobIds: number[]) => {
+    if (!hasResume) {
+      toast.error('Resume required', {
+        description: 'Please upload your resume in the Profile section before applying.',
+      });
+      return;
+    }
+    
+    const newAppliedJobs = [...appliedJobs, ...jobIds.filter(id => !appliedJobs.includes(id))];
+    setAppliedJobs(newAppliedJobs);
+    localStorage.setItem('appliedJobs', JSON.stringify(newAppliedJobs));
+  };
+
   const isJobApplied = (jobId: number) => {
     return appliedJobs.includes(jobId);
   };
@@ -539,8 +554,12 @@ const Jobs = () => {
     setIsDetailsOpen(true);
   };
 
-  // Filter jobs based on search term
-  const filteredJobs = jobs.filter(job => 
+  const handleJobsFiltered = (filtered: any[]) => {
+    setFilteredJobs(filtered);
+  };
+
+  // Apply search filter to the filtered jobs
+  const searchFilteredJobs = filteredJobs.filter(job => 
     job.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -560,20 +579,42 @@ const Jobs = () => {
           <p className="text-muted-foreground">Find your next career opportunity at KodJobs</p>
         </div>
         
-        {/* Search input with icon */}
-        <div className="relative w-full md:w-72">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input 
-            placeholder="Search jobs, skills, companies..." 
-            className="pl-9"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <div className="flex items-center space-x-2">
+          {/* Search input with icon */}
+          <div className="relative w-full md:w-72">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input 
+              placeholder="Search jobs, skills, companies..." 
+              className="pl-9"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          
+          {/* Smart Filter Toggle */}
+          <Button
+            variant={showSmartFilter ? "default" : "outline"}
+            onClick={() => setShowSmartFilter(!showSmartFilter)}
+            className="whitespace-nowrap"
+          >
+            <Filter className="h-4 w-4 mr-2" />
+            Smart Filter
+          </Button>
         </div>
       </div>
       
+      {/* Smart Job Filter Component */}
+      {showSmartFilter && (
+        <SmartJobFilter
+          jobs={jobs}
+          onJobsFiltered={handleJobsFiltered}
+          appliedJobs={appliedJobs}
+          onApplyJobs={handleApplyMultiple}
+        />
+      )}
+      
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredJobs.map((job) => (
+        {searchFilteredJobs.map((job) => (
           <Card key={job.id} className="transition-all hover:shadow-md overflow-hidden border-gray-200 flex flex-col h-full">
             <CardHeader className="pb-2 bg-gradient-to-r from-blue-50 to-transparent border-b border-gray-100">
               <div className="flex items-start justify-between">
@@ -587,6 +628,12 @@ const Jobs = () => {
                 {job.company_logo && (
                   <div className="h-10 w-10 rounded-full overflow-hidden flex-shrink-0 border border-gray-200">
                     <img src={job.company_logo} alt={`${job.company} logo`} className="h-full w-full object-cover" />
+                  </div>
+                )}
+                {/* Show match score if available */}
+                {job.match && (
+                  <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+                    {job.match.matchScore}% Match
                   </div>
                 )}
               </div>
@@ -660,7 +707,7 @@ const Jobs = () => {
           </Card>
         ))}
         
-        {filteredJobs.length === 0 && (
+        {searchFilteredJobs.length === 0 && (
           <div className="col-span-full text-center py-12">
             <p className="text-gray-500">No jobs match your search criteria.</p>
           </div>
@@ -768,3 +815,5 @@ const Jobs = () => {
 };
 
 export default Jobs;
+
+</edits_to_apply>
