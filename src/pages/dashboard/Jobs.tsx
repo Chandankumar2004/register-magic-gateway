@@ -807,5 +807,3 @@ const Jobs = () => {
 };
 
 export default Jobs;
-
-</edits_to_apply>
