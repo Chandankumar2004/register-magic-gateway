@@ -83,7 +83,6 @@ const sampleJobs = [
     publication_date: '2023-06-20',
     company_logo: 'https://randomuser.me/api/portraits/women/2.jpg',
   },
-  // ... Adding more jobs to reach 40 total
   {
     id: 3,
     title: 'UI/UX Designer',
@@ -348,8 +347,6 @@ const sampleJobs = [
     publication_date: '2023-07-30',
     company_logo: 'https://randomuser.me/api/portraits/men/10.jpg',
   },
-  // Continue adding more jobs to reach 40...
-  // For brevity, I'll add a few more and you can imagine the rest would follow similar pattern
   {
     id: 11,
     title: 'Cloud Solutions Architect',
@@ -374,8 +371,6 @@ const sampleJobs = [
     publication_date: '2023-08-05',
     company_logo: 'https://randomuser.me/api/portraits/men/12.jpg',
   },
-  // The remaining jobs would continue with similar structure...
-  // For brevity, just showing IDs and minimal info for the remaining jobs
   {
     id: 13,
     title: 'Blockchain Developer',
@@ -409,7 +404,6 @@ const sampleJobs = [
     skills: ['SQL', 'PostgreSQL', 'MongoDB', 'Database Optimization', 'Backup & Recovery'],
     publication_date: '2023-08-20',
   },
-  // Adding remaining jobs with basic information
   {
     id: 16,
     title: 'Content Strategist',
@@ -465,8 +459,6 @@ const sampleJobs = [
     skills: ['Technical Documentation', 'API Documentation', 'Markdown', 'Information Architecture', 'User Guides'],
     publication_date: '2023-09-10',
   },
-  // Adding remaining jobs to reach 40 total
-  // For brevity, I'll add just the remaining jobs with minimal details
   { id: 21, title: 'React Native Developer', company: 'MobileFusion', location: 'Chicago', type: 'Full-time', salary: '$110,000 - $135,000', description: 'Build cross-platform mobile applications using React Native.' },
   { id: 22, title: 'Machine Learning Engineer', company: 'AlgoWorks', location: 'Boston', type: 'Full-time', salary: '$125,000 - $155,000', description: 'Implement and deploy machine learning models for production use.' },
   { id: 23, title: 'UX Researcher', company: 'UserInsight', location: 'Seattle', type: 'Full-time', salary: '$95,000 - $120,000', description: 'Conduct user research to inform product design decisions.' },
@@ -815,5 +807,3 @@ const Jobs = () => {
 };
 
 export default Jobs;
-
-</edits_to_apply>
