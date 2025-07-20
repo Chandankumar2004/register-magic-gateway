@@ -43,36 +43,46 @@ This project demonstrates a clean, scalable, and stylish user registration exper
 > All images are stored in the `projectEMSImg/` folder:
 
 ### 1. 🏠 Home Screen  
-![Home Screen](https://github.com/Chandankumar2004/EMS/blob/b583813093e156f52889124f6021a5d0d49458d5/home.png)
+![Home Screen](https://github.com/Chandankumar2004/register-magic-gateway/blob/b69033181d64c4be203c2a7179dd24f040dec5f4/1.png)
 
 ---
 
-### 2. ➕ Onboard Employee  
-![Onboard Employee](https://github.com/Chandankumar2004/EMS/blob/b583813093e156f52889124f6021a5d0d49458d5/onboard%20new.png)
+### 2. ➕ Sign In  
+![Sign In](https://github.com/Chandankumar2004/register-magic-gateway/blob/b69033181d64c4be203c2a7179dd24f040dec5f4/2.png)
 
 ---
 
-### 3. 📋 View All Employees  
-![View All](https://github.com/Chandankumar2004/EMS/blob/b583813093e156f52889124f6021a5d0d49458d5/view%20All.png)
+### 3. 📋 KodJobs Home
+![KodJobs Home](https://github.com/Chandankumar2004/register-magic-gateway/blob/b69033181d64c4be203c2a7179dd24f040dec5f4/3.png)
 
 ---
 
-### 4. 🔍 Search Employee  
-![Search](https://github.com/Chandankumar2004/EMS/blob/b583813093e156f52889124f6021a5d0d49458d5/search.png)
+### 4. 🔍 Career Blog
+![Career Blog](https://github.com/Chandankumar2004/register-magic-gateway/blob/b69033181d64c4be203c2a7179dd24f040dec5f4/4.png)
 
 ---
 
-### 5. ✏️ Update Employee  
-#### a. Enter ID to Update  
-![Update Step 1](https://github.com/Chandankumar2004/EMS/blob/b583813093e156f52889124f6021a5d0d49458d5/enterIdToUpdate.png)
-
-#### b. Edit & Save Details  
-![Update Step 2](https://github.com/Chandankumar2004/EMS/blob/b583813093e156f52889124f6021a5d0d49458d5/editAndSaveDetails.png)
+### 5. 🔍 Explore Jobs
+![Explore Jobs](https://github.com/Chandankumar2004/register-magic-gateway/blob/b69033181d64c4be203c2a7179dd24f040dec5f4/5.png)
 
 ---
 
-### 6. ❌ De-board Employee  
-![DeBoard](https://github.com/Chandankumar2004/EMS/blob/b583813093e156f52889124f6021a5d0d49458d5/delete.png)
+### 6. 🔍 My Application
+![My Application](https://github.com/Chandankumar2004/register-magic-gateway/blob/b69033181d64c4be203c2a7179dd24f040dec5f4/6.png)
+
+---
+
+### 7. 🔍 Ai Job Assisant
+![Ai Job Assisant](https://github.com/Chandankumar2004/register-magic-gateway/blob/b69033181d64c4be203c2a7179dd24f040dec5f4/7.png)
+
+---
+
+### 8. 🔍 User Profile
+![User Profile](https://github.com/Chandankumar2004/register-magic-gateway/blob/b69033181d64c4be203c2a7179dd24f040dec5f4/8.png)
+
+---
+### 9. 🔍 Profile completion
+![Profile completion](https://github.com/Chandankumar2004/register-magic-gateway/blob/b69033181d64c4be203c2a7179dd24f040dec5f4/9.png)
 
 ---
 
